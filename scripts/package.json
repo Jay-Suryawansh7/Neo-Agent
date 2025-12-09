@@ -1,0 +1,12 @@
+{
+    "name": "neo-scripts",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "ingest": "tsx ingest-knowledge.ts"
+    },
+    "dependencies": {
+        "dotenv": "^16.6.1",
+        "tsx": "^4.7.0"
+    }
+}

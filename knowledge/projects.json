@@ -1,0 +1,56 @@
+{
+    "title": "Active Projects",
+    "category": "projects",
+    "projects": [
+        {
+            "name": "Neo",
+            "description": "Advanced AI assistant with memory, planning, and RAG capabilities",
+            "status": "active",
+            "department": "AI Research & Development",
+            "tech_stack": [
+                "Next.js",
+                "Express",
+                "PostgreSQL",
+                "Pinecone",
+                "OpenAI"
+            ],
+            "goal": "Create an intelligent, authoritative AI interface for CogneoVerse"
+        },
+        {
+            "name": "Knowledge Graph Engine",
+            "description": "Semantic knowledge organization and retrieval system",
+            "status": "active",
+            "department": "AI Research & Development",
+            "tech_stack": [
+                "Neo4j",
+                "Python",
+                "GraphQL"
+            ],
+            "goal": "Build interconnected knowledge infrastructure"
+        },
+        {
+            "name": "CogneoVerse Platform",
+            "description": "Unified platform for all ecosystem projects and services",
+            "status": "planning",
+            "department": "Platform Engineering",
+            "tech_stack": [
+                "Kubernetes",
+                "Docker",
+                "Microservices"
+            ],
+            "goal": "Provide scalable infrastructure for ecosystem growth"
+        },
+        {
+            "name": "Academy Portal",
+            "description": "Interactive learning platform for AI and software engineering",
+            "status": "active",
+            "department": "Academy",
+            "tech_stack": [
+                "Next.js",
+                "Supabase",
+                "Video Streaming"
+            ],
+            "goal": "Democratize advanced technology education"
+        }
+    ]
+}

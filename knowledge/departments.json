@@ -1,0 +1,81 @@
+{
+    "title": "CogneoVerse Departments",
+    "category": "departments",
+    "departments": [
+        {
+            "name": "AI Research & Development",
+            "mission": "Advance ethical AI systems that augment human intelligence",
+            "focus_areas": [
+                "Natural language processing",
+                "Computer vision",
+                "Reinforcement learning",
+                "AI safety and alignment"
+            ],
+            "current_projects": [
+                "Neo AI Assistant",
+                "Knowledge Graph Engine",
+                "Ethical AI Framework"
+            ]
+        },
+        {
+            "name": "Platform Engineering",
+            "mission": "Build robust, scalable infrastructure for all CogneoVerse projects",
+            "focus_areas": [
+                "Cloud architecture",
+                "DevOps automation",
+                "API development",
+                "Database optimization"
+            ],
+            "current_projects": [
+                "CogneoVerse Platform",
+                "Unified API Gateway",
+                "Infrastructure as Code"
+            ]
+        },
+        {
+            "name": "Product Design",
+            "mission": "Create beautiful, intuitive interfaces that empower users",
+            "focus_areas": [
+                "UI/UX design",
+                "Design systems",
+                "User research",
+                "Accessibility"
+            ],
+            "current_projects": [
+                "Design System Library",
+                "User Experience Framework",
+                "Accessibility Toolkit"
+            ]
+        },
+        {
+            "name": "Academy",
+            "mission": "Educate the next generation of ethical technologists",
+            "focus_areas": [
+                "AI engineering courses",
+                "Full-stack development",
+                "Ethical technology",
+                "Mentorship programs"
+            ],
+            "current_projects": [
+                "AI Fundamentals Course",
+                "Builder Bootcamp",
+                "Mentorship Platform"
+            ]
+        },
+        {
+            "name": "Ethics & Governance",
+            "mission": "Ensure all projects align with ethical principles and societal benefit",
+            "focus_areas": [
+                "Ethical review processes",
+                "Privacy protection",
+                "Bias detection",
+                "Community governance"
+            ],
+            "current_projects": [
+                "Ethics Framework",
+                "Privacy Audit System",
+                "Community Guidelines"
+            ]
+        }
+    ]
+}
