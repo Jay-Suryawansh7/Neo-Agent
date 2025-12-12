@@ -22,7 +22,7 @@ interface Config {
   openaiApiBaseUrl: string;
   openaiApiKey: string;
   openaiModelName: string;
-  
+
   // Embeddings (separate provider)
   embeddingApiKey: string;
   embeddingApiBaseUrl: string;
@@ -76,8 +76,8 @@ const config: Config = {
   embeddingModel: process.env.EMBEDDING_MODEL || 'text-embedding-3-small',
 
   // Pinecone
-  pineconeApiKey: process.env.PINECONE_API_KEY || '',
-  pineconeIndexName: process.env.PINECONE_INDEX_NAME || 'neo-knowledge',
+  pineconeApiKey: process.env.PINECONE_API_KEY || 'pcsk_NZrge_2UBc7p3apE4zgAcMeXboktRsA2CXEs8TiP7saXd6JvyAn1KKbfwpou16bZrq6dn',
+  pineconeIndexName: process.env.PINECONE_INDEX_NAME || 'cogneoverse-chatbot',
 
   // AI
   maxTokens: parseInt(process.env.MAX_TOKENS || '2000'),
@@ -105,13 +105,12 @@ const config: Config = {
 const requiredEnvVars = [
   'OPENAI_API_BASE_URL',
   'OPENAI_API_KEY',
-  'PINECONE_API_KEY',
   'DATABASE_URL'
 ];
 
 export function validateConfig(): void {
   const missing = requiredEnvVars.filter(varName => !process.env[varName]);
-  
+
   if (missing.length > 0) {
     console.error('❌ Missing required environment variables:', missing);
     console.error('Please check your .env file');

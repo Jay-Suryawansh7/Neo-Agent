@@ -15,7 +15,7 @@ export const chatRateLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  skip: (req) => {
+  skip: (_req) => {
     // Skip rate limiting in development
     return config.nodeEnv === 'development';
   },

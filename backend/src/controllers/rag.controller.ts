@@ -4,8 +4,7 @@
  */
 
 import { Request, Response } from 'express';
-import { knowledgeService } from '../services/knowledge.service';
-import { pineconeService } from '../services/pinecone.service';
+import { retrieveContext } from '../services/rag/rag.interface';
 
 export class RAGController {
   /**
@@ -13,19 +12,16 @@ export class RAGController {
    */
   async search(req: Request, res: Response): Promise<void> {
     try {
-      const { query, topK, category } = req.body;
+      const { question, query, intent, topic, tokenBudget } = req.body;
 
-      const filter = category ? { category } : undefined;
-      const results = await knowledgeService.search(query, topK, filter);
-
-      res.json({
-        success: true,
-        data: {
-          query,
-          results,
-          totalResults: results.length,
-        },
+      const searchResult = await retrieveContext({
+        question: question || query, // Support both
+        intent: intent || 'question', // Default intent
+        topic: topic,
+        tokenBudget: tokenBudget
       });
+
+      res.json(searchResult);
     } catch (error) {
       console.error('RAG search error:', error);
       res.status(500).json({
@@ -36,46 +32,26 @@ export class RAGController {
   }
 
   /**
-   * Re-ingest knowledge base
+   * Re-ingest knowledge base - DEPRECATED/DISABLED
    */
-  async ingest(req: Request, res: Response): Promise<void> {
-    try {
-      // This is a heavy operation - should be async in production
-      await knowledgeService.ingestKnowledge();
-
-      res.json({
-        success: true,
-        data: {
-          message: 'Knowledge base ingested successfully',
-        },
-      });
-    } catch (error) {
-      console.error('Ingestion error:', error);
-      res.status(500).json({
-        error: 'Ingestion failed',
-        code: 'INGESTION_ERROR',
-      });
-    }
+  async ingest(_req: Request, res: Response): Promise<void> {
+    res.status(410).json({
+      error: 'Ingestion is disabled in this environment.',
+      code: 'INGESTION_DISABLED'
+    });
   }
 
   /**
-   * Get Pinecone stats
+   * Get Pinecone stats - DEPRECATED/DISABLED
    */
-  async getStats(req: Request, res: Response): Promise<void> {
-    try {
-      const stats = await pineconeService.getStats();
-
-      res.json({
-        success: true,
-        data: stats,
-      });
-    } catch (error) {
-      console.error('Stats error:', error);
-      res.status(500).json({
-        error: 'Failed to get stats',
-        code: 'STATS_ERROR',
-      });
-    }
+  async getStats(_req: Request, res: Response): Promise<void> {
+    // Stats collection not implemented in simple client
+    res.json({
+      success: true,
+      data: {
+        message: "Stats not available in this configuration"
+      }
+    });
   }
 }
 

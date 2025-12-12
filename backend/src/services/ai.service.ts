@@ -1,19 +1,11 @@
-/**
- * AI Service
- * OpenAI-compatible API client with streaming support
- */
-
 import OpenAI from 'openai';
 import config from '../config';
 import { NEO_SYSTEM_PROMPT, SAFETY_PROMPT } from '../prompts/system';
 import { getModePrompt } from '../prompts/modes';
 import { NeoMode } from '../../../shared/types';
-import { JinaClient } from './jina-client';
 
 class AIService {
   private chatClient: OpenAI;
-  private embeddingClient: OpenAI | null;
-  private jinaClient: JinaClient | null;
 
   constructor() {
     // Groq for chat completions
@@ -21,22 +13,6 @@ class AIService {
       apiKey: config.openaiApiKey,
       baseURL: config.openaiApiBaseUrl,
     });
-
-    // Check if using Jina AI for embeddings
-    const isJina = config.embeddingApiBaseUrl.includes('jina.ai');
-    
-    if (isJina) {
-      // Use custom Jina client
-      this.jinaClient = new JinaClient(config.embeddingApiKey, config.embeddingApiBaseUrl);
-      this.embeddingClient = null;
-    } else {
-      // Use OpenAI SDK for OpenAI/compatible APIs
-      this.embeddingClient = new OpenAI({
-        apiKey: config.embeddingApiKey,
-        baseURL: config.embeddingApiBaseUrl,
-      });
-      this.jinaClient = null;
-    }
   }
 
   /**
@@ -105,56 +81,6 @@ class AIService {
     } catch (error) {
       console.error('AI completion error:', error);
       throw new Error('Failed to generate response');
-    }
-  }
-
-  /**
-   * Generate embeddings for text
-   */
-  async generateEmbedding(text: string): Promise<number[]> {
-    try {
-      if (this.jinaClient) {
-        // Use Jina AI client
-        const response = await this.jinaClient.createEmbeddings(text);
-        return response.data[0].embedding;
-      } else if (this.embeddingClient) {
-        // Use OpenAI-compatible client
-        const response = await this.embeddingClient.embeddings.create({
-          model: config.embeddingModel,
-          input: text,
-        });
-        return response.data[0].embedding;
-      } else {
-        throw new Error('No embedding client configured');
-      }
-    } catch (error) {
-      console.error('Embedding generation error:', error);
-      throw new Error('Failed to generate embedding');
-    }
-  }
-
-  /**
-   * Generate embeddings for multiple texts
-   */
-  async generateEmbeddings(texts: string[]): Promise<number[][]> {
-    try {
-      if (this.jinaClient) {
-        // Use Jina AI client
-        const response = await this.jinaClient.createEmbeddings(texts);
-        return response.data.map(item => item.embedding);
-      } else if (this.embeddingClient) {
-        // Use OpenAI-compatible client
-        const response = await this.embeddingClient.embeddings.create({
-          model: config.embeddingModel,
-          input: texts,
-        });
-        return response.data.map(item => item.embedding);
-      } else {
-        throw new Error('No embedding client configured');
-      }
-    } catch (error) {
-      console.error('Batch embedding error:', error);
-      throw new Error('Failed to generate embeddings');
     }
   }
 

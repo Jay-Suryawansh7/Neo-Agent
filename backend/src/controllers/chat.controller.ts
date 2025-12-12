@@ -8,7 +8,9 @@ import { SessionRequest } from '../middleware/session';
 import { aiService } from '../services/ai.service';
 import { memoryService } from '../services/memory.service';
 import { modeService } from '../services/mode.service';
-import { knowledgeService } from '../services/knowledge.service';
+import { retrieveContext } from '../services/rag/rag.interface';
+import { formatContext } from '../services/rag/utils';
+import { NeoMode } from '../../../shared/types';
 import { planningService } from '../services/planning.service';
 import { sanitizeInput, detectPromptInjection } from '../middleware/validation';
 
@@ -60,12 +62,20 @@ export class ChatController {
       // 1. Memory context
       const memoryContext = await memoryService.buildMemoryContext(session.id);
 
-      // 2. RAG context (optional - falls back gracefully if embeddings fail)
+      // 2. RAG context
       let ragSources: any[] = [];
       let ragContext = '';
       try {
-        ragSources = await knowledgeService.search(sanitizedMessage);
-        ragContext = knowledgeService.buildRAGContext(ragSources);
+        const ragResult = await retrieveContext({
+          question: sanitizedMessage,
+          intent: 'chat', // Could infer this better from modeService
+          topic: mode !== NeoMode.VISITOR ? mode : undefined,
+        });
+
+        if (ragResult.success) {
+          ragSources = ragResult.context;
+          ragContext = formatContext(ragSources);
+        }
       } catch (error: any) {
         console.warn('RAG search unavailable (embeddings API key may be missing):', error?.message);
         // Continue without RAG - chat will still work
@@ -136,7 +146,7 @@ export class ChatController {
       }
     } catch (error) {
       console.error('Chat controller error:', error);
-      
+
       if (!res.headersSent) {
         res.status(500).json({
           error: 'Internal server error',
@@ -177,7 +187,7 @@ export class ChatController {
   async clearHistory(req: Request, res: Response): Promise<void> {
     try {
       const sessionId = (req as SessionRequest).sessionId;
-      
+
       // In production, you'd implement actual deletion
       // For now, just acknowledge
       res.json({
