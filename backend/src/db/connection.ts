@@ -12,10 +12,11 @@ dotenv.config({ path: path.join(__dirname, '../../../.env') });
 
 const poolConfig: PoolConfig = {
   connectionString: process.env.DATABASE_URL,
-  min: parseInt(process.env.DATABASE_POOL_MIN || '2'),
-  max: parseInt(process.env.DATABASE_POOL_MAX || '10'),
-  idleTimeoutMillis: 30000,
+  min: 0, // Allow pool to scale down to 0
+  max: 5, // Limit max connections for Neon serverless
+  idleTimeoutMillis: 10000, // Close idle clients faster
   connectionTimeoutMillis: 10000,
+  allowExitOnIdle: true,
 };
 
 class DatabaseConnection {
