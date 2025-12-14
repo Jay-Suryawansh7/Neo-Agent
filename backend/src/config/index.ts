@@ -5,7 +5,8 @@
 
 import dotenv from 'dotenv';
 
-dotenv.config();
+import path from 'path';
+dotenv.config({ path: path.join(__dirname, '../../../.env') });
 
 interface Config {
   // Server
@@ -31,6 +32,7 @@ interface Config {
   // Pinecone
   pineconeApiKey: string;
   pineconeIndexName: string;
+  pineconeRegion: string;
 
   // AI Configuration
   maxTokens: number;
@@ -76,8 +78,9 @@ const config: Config = {
   embeddingModel: process.env.EMBEDDING_MODEL || 'text-embedding-3-small',
 
   // Pinecone
-  pineconeApiKey: process.env.PINECONE_API_KEY || 'pcsk_NZrge_2UBc7p3apE4zgAcMeXboktRsA2CXEs8TiP7saXd6JvyAn1KKbfwpou16bZrq6dn',
-  pineconeIndexName: process.env.PINECONE_INDEX_NAME || 'cogneoverse-chatbot',
+  pineconeApiKey: process.env.PINECONE_API_KEY || '',
+  pineconeIndexName: process.env.PINECONE_INDEX_NAME || 'neo-knowledge',
+  pineconeRegion: process.env.PINECONE_REGION || process.env.PINECONE_ENVIRONMENT || 'us-west-2',
 
   // AI
   maxTokens: parseInt(process.env.MAX_TOKENS || '2000'),

@@ -3,10 +3,12 @@
  * PostgreSQL connection with retry logic
  */
 
+
 import { Pool, PoolConfig } from 'pg';
 import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '../../../.env') });
 
 const poolConfig: PoolConfig = {
   connectionString: process.env.DATABASE_URL,

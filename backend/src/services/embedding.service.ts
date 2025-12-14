@@ -3,12 +3,15 @@
  * Generates embeddings using local BGE-M3 model via Xenova
  */
 
-import { pipeline } from '@xenova/transformers';
+import { pipeline, env } from '@xenova/transformers';
+
+// Fix for ERR_WORKER_PATH in some Node environments
+env.backends.onnx.wasm.numThreads = 1;
 
 class EmbeddingService {
     private static instance: EmbeddingService;
     private extractor: any = null;
-    private modelPath: string = 'file:///C:/models/bge_m3';
+    private modelPath: string = 'Xenova/bge-m3';
 
     private constructor() { }
 
@@ -27,9 +30,7 @@ class EmbeddingService {
             console.log('🔄 Loading local embedding model...');
             try {
                 // Use feature-extraction pipeline
-                this.extractor = await pipeline('feature-extraction', this.modelPath, {
-                    quantized: false, // Ensure full precision if needed, or true for speed
-                });
+                this.extractor = await pipeline('feature-extraction', this.modelPath);
                 console.log('✅ Embedding model loaded');
             } catch (error) {
                 console.error('❌ Failed to load embedding model:', error);
