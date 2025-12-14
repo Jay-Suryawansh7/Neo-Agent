@@ -66,9 +66,14 @@ export default function NeoPage() {
       for await (const token of NeoAPI.streamChat(userMessage.content)) {
         setMessages(prev => {
           const updated = [...prev];
-          const lastMessage = updated[updated.length - 1];
+          const lastIndex = updated.length - 1;
+          const lastMessage = updated[lastIndex];
+          
           if (lastMessage.role === 'assistant') {
-            lastMessage.content += token;
+            updated[lastIndex] = {
+              ...lastMessage,
+              content: lastMessage.content + token
+            };
           }
           return updated;
         });

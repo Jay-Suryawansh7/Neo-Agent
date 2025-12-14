@@ -17,8 +17,8 @@ export function buildFilters(intent: string, topic?: string, extra?: object): Pi
     // Map intents to categories
     const intentCategoryMap: Record<string, string[]> = {
         'coding': ['code', 'technical_docs'],
-        'question': ['faq', 'docs', 'general'],
-        'chat': ['general', 'history'],
+        'question': ['faq', 'docs', 'general', 'projects'],
+        'chat': ['general', 'history', 'projects'],
         'debug': ['code', 'stackoverflow', 'issues']
     };
 
@@ -28,13 +28,10 @@ export function buildFilters(intent: string, topic?: string, extra?: object): Pi
     }
 
     // 2. Filter by topic
-    // Using $in as a proxy for 'contains' if topic is a single string but we want to match if it's in the list of topics in metadata
-    // Or strict equality if metadata topic is a string
-    if (topic) {
-        // Assuming metadata 'topic' is a string. If it's a list, we might need different logic.
-        // For now, let's use a simple equality match or checking if the topic field matches.
-        filters['topic'] = topic;
-    }
+    // SKIPPING topic filter for now as metadata doesn't have 'topic' field yet
+    // if (topic) {
+    //     filters['topic'] = topic;
+    // }
 
     // 3. Source filtering (internal vs public)
     // Example: If extra contains 'source', use it

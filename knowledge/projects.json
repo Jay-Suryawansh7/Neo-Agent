@@ -51,6 +51,18 @@
                 "Video Streaming"
             ],
             "goal": "Democratize advanced technology education"
+        },
+        {
+            "name": "Agastya",
+            "description": "Hardware engineering and PCB automation platform",
+            "status": "active",
+            "department": "Hardware Engineering",
+            "tech_stack": [
+                "Python",
+                "KiCad",
+                "Automation"
+            ],
+            "goal": "Automate electronics design and manufacturing workflows"
         }
     ]
 }
